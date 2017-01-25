@@ -26,9 +26,9 @@ RUN postinst && \
     chmod 777 /apollo-data && \
     chmod 777 /jbrowse/data
 
-RUN git clone https://github.com/TAMU-CPT/galaxy-apollo tools/apollo && \
+RUN git clone https://github.com/abretaud/galaxy-apollo tools/apollo && \
     cd tools/apollo && \
-    git checkout 4ac38d0b6dba1183f3e78eb5c224c7051064b4a5
+    git checkout bipaa
 
 RUN git clone https://github.com/galaxy-genome-annotation/galaxy-tools /tmp/galaxy-tools/ && \
     cp -RT /tmp/galaxy-tools/tools/ tools/ && \
@@ -36,6 +36,15 @@ RUN git clone https://github.com/galaxy-genome-annotation/galaxy-tools /tmp/gala
 
 ADD fix_perms.sh /bin/fix_perms
 ADD fix_perms.conf /etc/supervisor/conf.d/apollo.conf
+
+# Install a miniconda2 version until https://github.com/galaxyproject/galaxy/issues/3299 is resolved
+# By default miniconda3 is installed, but we want to use python 2.7 for apollo scripts
+RUN rm -rf $GALAXY_CONDA_PREFIX/ && \
+    wget https://repo.continuum.io/miniconda/Miniconda2-4.0.5-Linux-x86_64.sh && \
+    bash Miniconda2-4.0.5-Linux-x86_64.sh -b -p $GALAXY_CONDA_PREFIX && \
+    rm Miniconda2-4.0.5-Linux-x86_64.sh && \
+    $GALAXY_CONDA_PREFIX/bin/conda install -y conda==4.2.13 && \
+    chown -R $GALAXY_USER:$GALAXY_USER $GALAXY_CONDA_PREFIX
 
 ENV GALAXY_WEBAPOLLO_URL="http://apollo:8080/apollo" \
     GALAXY_WEBAPOLLO_USER="admin@local.host" \
