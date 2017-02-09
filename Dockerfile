@@ -34,9 +34,6 @@ RUN git clone https://github.com/galaxy-genome-annotation/galaxy-tools /tmp/gala
     cp -RT /tmp/galaxy-tools/tools/ tools/ && \
     rm -rf /tmp/galaxy-tools/
 
-ADD fix_perms.sh /bin/fix_perms
-ADD fix_perms.conf /etc/supervisor/conf.d/apollo.conf
-
 # Install a miniconda2 version until https://github.com/galaxyproject/galaxy/issues/3299 is resolved
 # By default miniconda3 is installed, but we want to use python 2.7 for apollo scripts
 RUN rm -rf $GALAXY_CONDA_PREFIX/ && \
