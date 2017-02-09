@@ -16,15 +16,15 @@ ENV GALAXY_CONFIG_TOOL_CONFIG_FILE /galaxy-central/config/tool_conf.xml.sample,/
 # overwrite current welcome page
 ADD welcome.html $GALAXY_CONFIG_DIR/web/welcome.html
 
-# Mark folders as imported from the host.
-VOLUME ["/export/", "/apollo-data/", "/jbrowse/data/", "/var/lib/docker"]
-
 ADD setup_data_libraries.py /bin/setup_data_libraries.py
 
 ADD postinst.sh /bin/postinst
 RUN postinst && \
     chmod 777 /apollo-data && \
     chmod 777 /jbrowse/data
+
+# Mark folders as imported from the host.
+VOLUME ["/export/", "/apollo-data/", "/jbrowse/data/", "/var/lib/docker"]
 
 RUN git clone https://github.com/abretaud/galaxy-apollo tools/apollo && \
     cd tools/apollo && \
