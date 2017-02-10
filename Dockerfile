@@ -20,6 +20,8 @@ ADD setup_data_libraries.py /bin/setup_data_libraries.py
 
 ADD postinst.sh /bin/postinst
 RUN postinst && \
+    mkdir -p /apollo-data && \
+    mkdir -p /jbrowse/data && \
     chmod 777 /apollo-data && \
     chmod 777 /jbrowse/data
 
