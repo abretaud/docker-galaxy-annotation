@@ -7,7 +7,7 @@ ENV GALAXY_CONFIG_BRAND=Annotation \
 WORKDIR /galaxy-central
 
 # install-repository sometimes needs to be forced into updating the repo
-ENV CACHE_BUST=4
+ENV CACHE_BUST=5
 
 RUN install-repository "--url https://toolshed.g2.bx.psu.edu/ -o iuc --name jbrowse --panel-section-name JBrowse"
 
@@ -47,4 +47,5 @@ ENV GALAXY_WEBAPOLLO_URL="http://apollo:8080/apollo" \
     GALAXY_JBROWSE_SHARED_URL="/jbrowse" \
     GALAXY_TRIPAL_URL="http://tripal/tripal/" \
     GALAXY_TRIPAL_USER="admin" \
-    GALAXY_TRIPAL_PASSWORD="changeme"
+    GALAXY_TRIPAL_PASSWORD="changeme" \
+    GALAXY_TRIPAL_SHARED_DIR="/tripal-data"
